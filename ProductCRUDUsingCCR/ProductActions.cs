@@ -17,8 +17,7 @@ namespace ProductCRUDUsingCCR
         //Create Product
         public void CreateProduct(Product product)
         {
-            using (connection)
-            {
+           
                 string sqlText = $"INSERT INTO Products (ProductName, Description, Price) VALUES ('{product.ProductName}', '{product.Description}', {product.Price})";
                 SqlCommand command = new SqlCommand(sqlText, connection);
 
@@ -32,6 +31,9 @@ namespace ProductCRUDUsingCCR
                 {
                     Console.WriteLine("Error creating product: " + ex.Message);
                 }
+            finally
+            {
+                connection.Close(); 
             }
         }
 
@@ -40,8 +42,7 @@ namespace ProductCRUDUsingCCR
         //Read Product
         public Product GetProductById(int id)
         {
-            using (SqlConnection connection = new SqlConnection("Data Source=QUAL-LT7M15F63\\SQLEXPRESS;Initial Catalog=ProductData;Integrated Security=True;Encrypt=False;TrustServerCertificate=True;Pooling=False"))
-            {
+
                 string sqlText = $"SELECT * FROM Products WHERE ProductId = {id}";
                 using (SqlCommand command = new SqlCommand(sqlText, connection))
                 {
@@ -67,42 +68,44 @@ namespace ProductCRUDUsingCCR
                         Console.WriteLine("Error reading product: " + ex.Message);
                         return null;
                     }
+                    finally
+                    {
+                        connection?.Close();
+                    }
                 }
-            }
         }
 
 
         //Update Product
         public void UpdateProduct(Product product)
         {
-            using (SqlConnection connection = new SqlConnection("Data Source=QUAL-LT7M15F63\\SQLEXPRESS;Initial Catalog=ProductData;Integrated Security=True;Encrypt=False;TrustServerCertificate=True;Pooling=False"))
-            {
+
                 string sqlText = $"UPDATE Products SET ProductName = '{product.ProductName}', Description = '{product.Description}', Price = {product.Price} WHERE ProductId = {product.ProductId}";
                 SqlCommand command = new SqlCommand(sqlText, connection);
                 connection.Open();
                 command.ExecuteNonQuery();
                 connection.Close();
-            }
+            
         }
 
         //Delete Product
         public void DeleteProduct(int id)
         {
-            using (SqlConnection connection = new SqlConnection("Data Source=QUAL-LT7M15F63\\SQLEXPRESS;Initial Catalog=ProductData;Integrated Security=True;Encrypt=False;TrustServerCertificate=True;Pooling=False"))
-            {
+
                 string sqlText = $"DELETE FROM Products WHERE ProductId = {id}";
                 SqlCommand command = new SqlCommand(sqlText, connection);
 
                 connection.Open();
                 command.ExecuteNonQuery();
-            }
+                connection.Close();     
+            
         }
 
         //Display All Products
         public List<Product> GetAllProducts()
         {
             List<Product> products = new List<Product>();
-            using (SqlConnection connection = new SqlConnection("Data Source=QUAL-LT7M15F63\\SQLEXPRESS;Initial Catalog=ProductData;Integrated Security=True;Encrypt=False;TrustServerCertificate=True;Pooling=False"))
+            
             {
                 string sqlText = "SELECT * FROM Products";
                 SqlCommand command = new SqlCommand(sqlText, connection);

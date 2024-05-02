@@ -10,7 +10,7 @@ namespace ProductUsingCB_DS
 {
     internal class DbHelper
     {
-        SqlConnection? connectionString = new SqlConnection("Data Source=QUAL-LT7M15F63\\SQLEXPRESS;Initial Catalog=ProductData;Integrated Security=True;Encrypt=True;");
+        SqlConnection? connectionString = new SqlConnection("Data Source=QUAL-LT7M15F63\\SQLEXPRESS;Initial Catalog=ProductData;Integrated Security=True;");
       
         DataSet dataSet = new DataSet();
 
@@ -22,15 +22,12 @@ namespace ProductUsingCB_DS
         public DataSet FillDataSet()
         {
             
-            using (SqlConnection connectionString = new SqlConnection("Data Source=QUAL-LT7M15F63\\SQLEXPRESS;Initial Catalog=ProductData;Integrated Security=True;Encrypt=True;TrustServerCertificate=true;"))
-            {
+          
                 string selectQuery = "SELECT * FROM Products";
                 dataAdapter = new SqlDataAdapter(selectQuery, connectionString);
                 commandBuilder = new SqlCommandBuilder(dataAdapter);
-
-                connectionString.Open();
                 dataAdapter.Fill(dataSet, "Products");
-            }
+            
             return dataSet; // Return the filled DataSet
         }
 
@@ -38,16 +35,13 @@ namespace ProductUsingCB_DS
 
         public void UpdateDatabase(DataSet data)
         {
-            using (SqlConnection connection = new SqlConnection("Data Source=QUAL-LT7M15F63\\SQLEXPRESS;Initial Catalog=ProductData;Integrated Security=True;Encrypt=True;TrustServerCertificate=True;"))
-         
-            {
-                dataAdapter = new SqlDataAdapter();
-                dataAdapter.SelectCommand = new SqlCommand("SELECT * FROM Products", connection);
-                commandBuilder = new SqlCommandBuilder(dataAdapter);
 
-                connection.Open();
-                dataAdapter.Update(data, "Products");
-            }
+            /*dataAdapter = new SqlDataAdapter();
+            dataAdapter.SelectCommand = new SqlCommand("SELECT * FROM Products", connectionString);
+            commandBuilder = new SqlCommandBuilder(dataAdapter);
+*/
+            dataAdapter.Update(data, "Products");
+          
         }
 
 
