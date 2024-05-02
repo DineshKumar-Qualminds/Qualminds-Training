@@ -59,7 +59,7 @@ namespace ProductCRUDUsingCCR
             }
         }
 
-      /*  private void CreateProduct()
+        private void CreateProduct()
         {
             Product product = new Product();
             Console.Write("Enter product name: ");
@@ -95,10 +95,12 @@ namespace ProductCRUDUsingCCR
             Product product = productActions.GetProductById(id);
             if (product != null)
             {
+                Console.WriteLine();
                 Console.WriteLine($"Product ID: {product.ProductId}");
                 Console.WriteLine($"Name: {product.ProductName}");
                 Console.WriteLine($"Description: {product.Description}");
                 Console.WriteLine($"Price: {product.Price}");
+                Console.WriteLine();
             }
             else
             {
@@ -159,7 +161,7 @@ namespace ProductCRUDUsingCCR
                 }
                 Console.WriteLine("================================================================================");
             }
-        }*/
+        }
 
     }
 }
